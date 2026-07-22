@@ -33,13 +33,25 @@ test("grounding rule is appended only once", () => {
   assert.equal(twice.split(GROUNDING_RULE).length - 1, 1);
 });
 
+test("grounding rule explicitly requires Android code reviews to load the skill", () => {
+  assert.match(GROUNDING_RULE, /MANDATORY FOR THIS PROJECT/);
+  assert.match(GROUNDING_RULE, /every Android development task/);
+  assert.match(GROUNDING_RULE, /code review/);
+  assert.match(GROUNDING_RULE, /use the read tool to load the android-current-docs skill/);
+  assert.match(GROUNDING_RULE, /android -V/);
+  assert.match(GROUNDING_RULE, /android docs search/);
+  assert.match(GROUNDING_RULE, /android docs fetch/);
+  assert.match(GROUNDING_RULE, /mark those claims unverified/);
+  assert.match(GROUNDING_RULE, /does not mention versions/);
+});
+
 test("manifest exposes only the intended extension and skill", async () => {
   const manifest = JSON.parse(
     await readFile(new URL("../package.json", import.meta.url), "utf8"),
   );
 
   assert.equal(manifest.name, "pi-android-current");
-  assert.equal(manifest.version, "0.1.0");
+  assert.equal(manifest.version, "0.1.1");
   assert.deepEqual(manifest.pi, {
     extensions: ["./extensions/android-current.js"],
     skills: ["./skills/android-current-docs"],
@@ -58,6 +70,10 @@ test("skill frontmatter and workflow contain the required safeguards", async () 
   assert.match(skill, /android docs search/);
   assert.match(skill, /android docs fetch/);
   assert.match(skill, /best one to three `kb:\/\//);
+  assert.match(skill, /Use for Android code reviews/);
+  assert.match(skill, /Run at least one targeted Android Knowledge Base search/);
+  assert.match(skill, /Android documentation consulted/);
+  assert.match(skill, /repository-local reasoning/);
   assert.match(skill, /Preserve versions already pinned/);
   assert.match(skill, /Stable releases are the default/);
   assert.match(skill, /Do not invent/);

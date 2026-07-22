@@ -1,13 +1,14 @@
 ---
 name: android-current-docs
-description: Grounds version-sensitive Android, Jetpack, Compose, AGP, SDK, deprecation, and Firebase work in Google's live Android Knowledge Base. Use before choosing or changing Android versions or APIs, assessing compatibility, or answering current Android documentation questions.
+description: Grounds Android development and code review in Google's live Android Knowledge Base. Use for Android code reviews, architecture reviews, implementation, bug fixes, refactoring, testing, build or dependency work, API behavior, versions, Jetpack, Compose, AGP, SDK, deprecations, and Firebase.
 license: MIT
-compatibility: Requires Google's Android CLI (`android`) with network access for live documentation search and fetch.
 ---
 
 # Android Current Docs
 
-Use Google's live Android Knowledge Base before making version-sensitive Android decisions. Keep this workflow scoped to the current project and do not add MCP configuration, API keys, or global Pi settings.
+Use Google's live Android Knowledge Base for Android development tasks, including code reviews that do not explicitly mention versions. Keep this workflow scoped to the current project and do not add MCP configuration, API keys, or global Pi settings.
+
+Require Google's Android CLI (`android`) with network access for live documentation search and fetch.
 
 ## Workflow
 
@@ -35,6 +36,16 @@ Use Google's live Android Knowledge Base before making version-sensitive Android
 7. Preserve versions already pinned by the project unless the user requested an upgrade or a documented compatibility requirement makes a change necessary.
 8. Make the smallest compatible recommendation or edit. In the final response, list the official source links exposed by fetched documents; if a canonical link is unavailable, list the consulted `kb://` identifiers.
 
+## Code reviews
+
+For an Android code review:
+
+1. Inspect the build configuration and relevant implementation before choosing documentation queries.
+2. Run at least one targeted Android Knowledge Base search before finalizing the review. Query the exact Android or Google APIs involved in suspected findings rather than searching for generic review advice.
+3. Fetch official documentation before claiming that an Android API is misused, deprecated, incompatible, unsafe, or contrary to current guidance.
+4. Separate repository-local findings, such as incorrect state transitions or missing tests, from findings grounded in Android documentation. Local logic findings do not need artificial citations.
+5. Add a short "Android documentation consulted" section to the review. If live documentation is unavailable, state that Android-framework claims remain unverified instead of silently relying on training data.
+
 ## Release policy
 
 - Stable releases are the default.
@@ -49,8 +60,9 @@ If `android` is missing, the search or fetch command fails, network access is un
 
 1. State the exact limitation clearly.
 2. Do not invent or rely on remembered versions, compatibility claims, deprecation status, or APIs as if they were current.
-3. Avoid version-sensitive edits until the documentation can be consulted, unless the user explicitly chooses to proceed with the uncertainty.
-4. Provide the Windows setup commands when Android CLI is missing:
+3. Continue only with repository-local reasoning when useful, and clearly mark Android API, compatibility, deprecation, and current-best-practice claims as unverified.
+4. Avoid version-sensitive edits until the documentation can be consulted, unless the user explicitly chooses to proceed with the uncertainty.
+5. Provide the Windows setup commands when Android CLI is missing:
 
    ```powershell
    winget install --id Google.AndroidCLI

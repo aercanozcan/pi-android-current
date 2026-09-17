@@ -51,7 +51,7 @@ test("manifest exposes only the intended extension and skill", async () => {
   );
 
   assert.equal(manifest.name, "pi-android-current");
-  assert.equal(manifest.version, "0.1.1");
+  assert.equal(manifest.version, "0.1.2");
   assert.deepEqual(manifest.pi, {
     extensions: ["./extensions/android-current.js"],
     skills: ["./skills/android-current-docs"],
@@ -78,4 +78,29 @@ test("skill frontmatter and workflow contain the required safeguards", async () 
   assert.match(skill, /Stable releases are the default/);
   assert.match(skill, /Do not invent/);
   assert.match(skill, /official source links/);
+});
+
+test("setup instructions cover macOS, Linux, and Windows", async () => {
+  const readme = await readFile(new URL("../README.md", import.meta.url), "utf8");
+
+  assert.match(readme, /darwin_arm64\/install\.sh/);
+  assert.match(readme, /darwin_x86_64\/install\.sh/);
+  assert.match(readme, /brew tap android\/tap/);
+  assert.match(readme, /linux_x86_64\/install\.sh/);
+  assert.match(readme, /winget install --id Google\.AndroidCLI/);
+  assert.match(readme, /command -v android/);
+  assert.doesNotMatch(readme, /Prerequisite \(Windows\)/);
+});
+
+test("skill failure guidance offers per-platform install commands", async () => {
+  const skill = await readFile(
+    new URL("../skills/android-current-docs/SKILL.md", import.meta.url),
+    "utf8",
+  );
+
+  assert.match(skill, /darwin_arm64/);
+  assert.match(skill, /darwin_x86_64/);
+  assert.match(skill, /linux_x86_64/);
+  assert.match(skill, /winget install --id Google\.AndroidCLI/);
+  assert.match(skill, /command -v android/);
 });

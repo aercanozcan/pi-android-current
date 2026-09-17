@@ -62,13 +62,16 @@ If `android` is missing, the search or fetch command fails, network access is un
 2. Do not invent or rely on remembered versions, compatibility claims, deprecation status, or APIs as if they were current.
 3. Continue only with repository-local reasoning when useful, and clearly mark Android API, compatibility, deprecation, and current-best-practice claims as unverified.
 4. Avoid version-sensitive edits until the documentation can be consulted, unless the user explicitly chooses to proceed with the uncertainty.
-5. Provide the Windows setup commands when Android CLI is missing:
+5. Tell the user how to install Android CLI for their platform, instead of assuming Windows:
 
-   ```powershell
-   winget install --id Google.AndroidCLI
-   android -V
-   android update
-   ```
+   - macOS (Apple silicon): `curl -fsSL https://dl.google.com/android/cli/latest/darwin_arm64/install.sh | bash`
+   - macOS (Intel): `curl -fsSL https://dl.google.com/android/cli/latest/darwin_x86_64/install.sh | bash`
+   - macOS with Homebrew: `brew tap android/tap && brew install android-cli`
+   - Linux (x86_64): `curl -fsSL https://dl.google.com/android/cli/latest/linux_x86_64/install.sh | bash`
+   - Windows: `winget install --id Google.AndroidCLI`
+
+   After installing, the user runs `android update` to pull the latest CLI build and Knowledge Base index. Full instructions: https://developer.android.com/tools/agents/android-cli
+6. Before reporting the CLI as missing, rule out a `PATH` problem: the user-level installers put `android` in `~/.local/bin`, which is not always on `PATH`. Check `command -v android`; if the binary exists outside `PATH`, report that instead and suggest invoking it by full path or adding the directory to `PATH`.
 
 ## Out of scope
 

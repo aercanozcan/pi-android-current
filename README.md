@@ -83,7 +83,7 @@ pi update git:github.com/aercanozcan/pi-android-current
 pi remove git:github.com/aercanozcan/pi-android-current -l
 ```
 
-`pi list` prints the installed packages; run it with `--approve` to include project-local packages when the project is not trusted yet.
+`pi list` prints the installed packages. If `pi update` or `pi remove` reports "No matching package found" for a project-local package, add `--approve` so the project's `.pi/settings.json` is read.
 
 You can explicitly invoke the public skill interface with `/skill:android-current-docs`; the extension also tells Pi to load it automatically for Android tasks, including generic requests such as "read the whole codebase and do a code review."
 

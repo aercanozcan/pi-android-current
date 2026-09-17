@@ -104,3 +104,10 @@ test("skill failure guidance offers per-platform install commands", async () => 
   assert.match(skill, /winget install --id Google\.AndroidCLI/);
   assert.match(skill, /command -v android/);
 });
+
+test("README documents the --approve scope for project-local packages", async () => {
+  const readme = await readFile(new URL("../README.md", import.meta.url), "utf8");
+
+  assert.match(readme, /pi list/);
+  assert.match(readme, /--approve/);
+});
